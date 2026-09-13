@@ -1,55 +1,52 @@
 RBMK Control
-Sobre o projeto
+
+Sobre o projeto:
 
 RBMK Control é um jogo desenvolvido em Python como projeto escolar.
-
 O jogador assume o papel de operador de um reator nuclear RBMK-1000 e precisa interromper um cronômetro o mais próximo possível de um tempo-alvo aleatório.
-
 O objetivo é testar precisão, atenção e tempo de reação.
 
-Como o jogo funciona
+Como o jogo funciona:
 
 Ao iniciar o jogo, o sistema passa por uma sequência de inicialização e apresenta uma situação de emergência no reator.
-
 Depois disso, uma rodada começa com um tempo-alvo aleatório.
 
 Exemplo:
 
 ALVO: 3.5 SEG
-
 O cronômetro começa a contar e o jogador precisa pressionar ESPAÇO para pará-lo.
-
 O resultado depende da diferença entre o tempo desejado e o tempo em que o jogador parou o cronômetro.
 
-Resultado
+Resultado:
 
 Se a diferença for de até 0,15 segundo, o jogador acerta.
-
 Se a diferença for de até 0,03 segundo, o resultado é considerado um:
 
-CRAVADO
+"CRAVADO"
 
 Caso o jogador erre, o reator entra em falha e ocorre a sequência de explosão e morte.
 
-Controles
+Controles:
+
 Tecla	Função
 ENTER	Inicializa o sistema
 ESPAÇO	Inicia o cronômetro
 ESPAÇO	Para o cronômetro
 ENTER	Reinicia após o resultado/morte
-Sistema de HUD
+
+Sistema de HUD:
 
 Durante a partida, o HUD apresenta informações simuladas do reator:
 
-Temperatura do núcleo
-Nível de radiação
-Saída de potência
-Sistema de resfriamento
-Estado do núcleo
-Estado do sistema de controle
-Tempo atual
-Tempo-alvo
-Estatísticas do jogador
+Temperatura do núcleo;
+Nível de radiação;
+Saída de potência;
+Sistema de resfriamento;
+Estado do núcleo;
+Estado do sistema de controle;
+Tempo atual;
+Tempo-alvo;
+Estatísticas do jogador;
 
 Os indicadores mudam de acordo com o progresso da rodada.
 
@@ -58,17 +55,18 @@ O sistema utiliza diferentes estados visuais:
 Verde — sistema estável
 Amarelo — aviso/instabilidade
 Vermelho — condição crítica
-Sistema de resultados
+
+Sistema de resultados:
 
 O jogo registra estatísticas durante a execução.
 
 São contabilizados:
 
-Número de tentativas
-Número de acertos
-Número de erros
-Precisão
-Número de resultados cravados
+Número de tentativas;
+Número de acertos;
+Número de erros;
+Precisão;
+Número de resultados cravados;
 
 Um resultado perfeito também gera uma animação especial com:
 
@@ -76,32 +74,32 @@ WOW - CRAVOU 🥇
 
 e efeitos de confete.
 
-Sistema de morte
+Sistema de morte:
 
 Quando o jogador erra uma rodada, o reator entra em estado crítico.
 
 O jogo apresenta:
 
-Falha do reator
-Explosão
-Tela de morte
+Falha do reator;
+Explosão;
+Tela de morte;
 Mensagem:
 ERROR - VOCÊ MORREU ☠️
 
 A tela de morte possui efeito visual de transparência e permite tentar novamente pressionando ENTER.
 
-Banco de dados
+Banco de dados:
 
 O jogo utiliza SQLite para armazenar os resultados das partidas.
-
 O banco de dados é criado automaticamente pelo sistema e possui o arquivo:
 
-rbmk.db
+"rbmk.db"
 
 A tabela principal utilizada pelo jogo é:
 
-partidas
-Dados armazenados
+"partidas"
+
+Dados armazenados;
 
 Cada partida registra:
 
@@ -130,7 +128,7 @@ Cravado: 1
 
 Isso significa que o jogador parou o cronômetro em aproximadamente 3,48 segundos, com alvo de 3,50 segundos, obtendo um resultado perfeito.
 
-Consultas SQL
+Consultas SQL:
 
 Como os resultados são armazenados em SQLite, é possível consultar o histórico diretamente utilizando SQL.
 
@@ -226,7 +224,8 @@ Não é necessário editar esse arquivo manualmente.
 
 As informações são inseridas pelo próprio jogo.
 
-Tecnologias utilizadas
+Tecnologias utilizadas:
+
 Python
 PySide6 — interface gráfica
 SQLite — armazenamento dos resultados
@@ -278,7 +277,8 @@ Estatísticas
 Banco de dados SQLite
 Registro das partidas
 Consultas SQL
-Autor
+
+Autor:
 
 Moral
 
