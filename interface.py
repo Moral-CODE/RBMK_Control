@@ -31,6 +31,7 @@ from jogo import Jogo
 from efeitos import Efeitos
 from banco import salvar_partida
 
+
 # =============================================================
 # CONFETES
 # =============================================================
@@ -47,6 +48,7 @@ class ConfeteWidget(QWidget):
         self.particulas = []
 
         self.timer = QTimer(self)
+
         self.timer.timeout.connect(
             self.atualizar
         )
@@ -73,6 +75,7 @@ class ConfeteWidget(QWidget):
         for _ in range(100):
 
             self.particulas.append({
+
                 "x": random.uniform(
                     0,
                     max(1, largura)
@@ -153,7 +156,10 @@ class ConfeteWidget(QWidget):
             p["rotacao"] += p["rotacao_vel"]
 
             if p["y"] < self.height() + 30:
-                vivos.append(p)
+
+                vivos.append(
+                    p
+                )
 
         self.particulas = vivos
 
@@ -162,6 +168,7 @@ class ConfeteWidget(QWidget):
         if not self.particulas:
 
             self.timer.stop()
+
             self.hide()
 
     def fade_out(self):
@@ -199,7 +206,9 @@ class ConfeteWidget(QWidget):
     def parar(self):
 
         self.timer.stop()
+
         self.hide()
+
         self.particulas.clear()
 
         self.fade.setOpacity(
@@ -230,7 +239,9 @@ class ConfeteWidget(QWidget):
             )
 
             painter.setBrush(
-                QColor(p["cor"])
+                QColor(
+                    p["cor"]
+                )
             )
 
             painter.setPen(
@@ -253,14 +264,14 @@ class ConfeteWidget(QWidget):
 
 class Interface(QWidget):
 
-
     def __init__(self):
+
         super().__init__()
 
+        # =========================================================
+        # ATALHOS
+        # =========================================================
 
-        # Atalhos globais do jogo.
-        # ApplicationShortcut faz o Space/Enter funcionar mesmo quando
-        # algum widget da interface estiver com o foco.
         self.shortcut_space = QShortcut(
             QKeySequence("Space"),
             self
@@ -287,11 +298,21 @@ class Interface(QWidget):
             self.tecla_enter
         )
 
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(
+            Qt.StrongFocus
+        )
+
         self.setFocus()
 
+        # =========================================================
+        # JOGO
+        # =========================================================
+
         self.jogo = Jogo()
-        self.efeitos = Efeitos(self)
+
+        self.efeitos = Efeitos(
+            self
+        )
 
         self.setWindowTitle(
             "RBMK-1000 // SISTEMA DE CONTROLE"
@@ -347,7 +368,7 @@ class Interface(QWidget):
         self.amarelo = "#ffaa00"
         self.branco = "#dddddd"
 
-    # =========================================================
+        # =========================================================
         # TÍTULO
         # =========================================================
 
@@ -938,7 +959,7 @@ class Interface(QWidget):
         )
 
         self.morte_timer.timeout.connect(
-            self.atualizar_timer
+            self.animar_morte
         )
 
         self.morte_estado = True
@@ -963,7 +984,7 @@ class Interface(QWidget):
         self.perfeitos = 0
 
         # =========================================================
-        # TIMERS
+        # TIMER PRINCIPAL
         # =========================================================
 
         self.timer = QTimer(
@@ -973,6 +994,26 @@ class Interface(QWidget):
         self.timer.timeout.connect(
             self.atualizar_timer
         )
+
+        # =========================================================
+        # LIMITE ABSOLUTO DE 10 SEGUNDOS
+        # =========================================================
+
+        self.limite_timer = QTimer(
+            self
+        )
+
+        self.limite_timer.setSingleShot(
+            True
+        )
+
+        self.limite_timer.timeout.connect(
+            self.tempo_esgotado
+        )
+
+        # =========================================================
+        # TIMER DO HUD
+        # =========================================================
 
         self.hud_timer = QTimer(
             self
@@ -1025,7 +1066,10 @@ class Interface(QWidget):
     # REDIMENSIONAMENTO
     # =============================================================
 
-    def resizeEvent(self, event):
+    def resizeEvent(
+        self,
+        event
+    ):
 
         super().resizeEvent(
             event
@@ -1291,15 +1335,19 @@ class Interface(QWidget):
             )
 
             if radiacao >= 85:
+
                 texto = "CRÍTICA"
 
             elif radiacao >= 65:
+
                 texto = "ALTA"
 
             elif radiacao >= 40:
+
                 texto = "ELEVADA"
 
             else:
+
                 texto = "BAIXA"
 
             self.radiacao_valor.setText(
@@ -1343,6 +1391,7 @@ class Interface(QWidget):
             for _ in range(14):
 
                 base = progresso * 6
+
                 variacao = random.uniform(
                     0,
                     4
@@ -1518,15 +1567,19 @@ class Interface(QWidget):
         )
 
         if radiacao >= 85:
+
             texto = "CRÍTICA"
 
         elif radiacao >= 65:
+
             texto = "ALTA"
 
         elif radiacao >= 40:
+
             texto = "ELEVADA"
 
         else:
+
             texto = "BAIXA"
 
         self.radiacao_valor.setText(
@@ -1701,7 +1754,7 @@ class Interface(QWidget):
             )
 
     # =============================================================
-    # TECLADO
+    # ENTER
     # =============================================================
 
     def tecla_enter(self):
@@ -1733,7 +1786,7 @@ class Interface(QWidget):
             self.parar_jogo()
 
     # =============================================================
-    # TECLADO (FALLBACK)
+    # FALLBACK DE TECLADO
     # =============================================================
 
     def keyPressEvent(
@@ -1747,16 +1800,22 @@ class Interface(QWidget):
         ):
 
             self.tecla_enter()
+
             event.accept()
+
             return
 
         if event.key() == Qt.Key_Space:
 
             self.tecla_space()
+
             event.accept()
+
             return
 
-        super().keyPressEvent(event)
+        super().keyPressEvent(
+            event
+        )
 
     # =============================================================
     # ALERTAS
@@ -1783,11 +1842,17 @@ class Interface(QWidget):
         )
 
         self.alertas = [
+
             "INICIALIZANDO SISTEMA...",
+
             "SISTEMA DE RESFRIAMENTO: AVISO",
+
             "BARRAS DE CONTROLE: VERIFICAÇÃO NECESSÁRIA",
+
             "NÚCLEO DO REATOR: INSTÁVEL",
+
             "NÍVEL DE RADIAÇÃO: ALTO",
+
             "FALHA CRÍTICA DO REATOR"
         ]
 
@@ -1877,6 +1942,7 @@ class Interface(QWidget):
         self.setFocus()
 
         self.jogo.novo_desafio()
+
         self.jogo.iniciar()
 
         self.modo = "jogando"
@@ -1911,8 +1977,17 @@ class Interface(QWidget):
             "PRESSIONE ESPAÇO PARA PARAR"
         )
 
+        # Timer visual
         self.timer.start(
             10
+        )
+
+        # =========================================================
+        # LIMITE MÁXIMO DE 10 SEGUNDOS
+        # =========================================================
+
+        self.limite_timer.start(
+            10000
         )
 
         self.atualizar_estatisticas()
@@ -1924,6 +1999,7 @@ class Interface(QWidget):
     def atualizar_timer(self):
 
         if not self.jogo.rodando:
+
             return
 
         tempo = (
@@ -2049,6 +2125,56 @@ class Interface(QWidget):
                     background-color: #550000;
                 """)
 
+    # =============================================================
+    # TEMPO ESGOTADO
+    # =============================================================
+
+    def tempo_esgotado(self):
+
+        # Se o jogador já terminou a partida,
+        # não fazemos absolutamente nada.
+
+        if self.modo != "jogando":
+
+            return
+
+        if not self.jogo.rodando:
+
+            return
+
+        # Para o timer visual
+        self.timer.stop()
+
+        # Impede que o limite seja chamado novamente
+        self.limite_timer.stop()
+
+        # Calcula o resultado real da partida
+        resultado = self.jogo.parar()
+
+        if resultado is None:
+
+            return
+
+        # Força o estado de erro
+        resultado["acertou"] = False
+
+        # Conta como erro
+        self.erros += 1
+
+        # Salva normalmente no banco
+        salvar_partida(
+            resultado["tempo_alvo"],
+            resultado["tempo_jogador"],
+            resultado["acertou"]
+        )
+
+        self.atualizar_estatisticas()
+
+        # Mostra exatamente a mesma sequência
+        # de explosão usada em uma derrota normal.
+        self.mostrar_resultado(
+            resultado
+        )
 
     # =============================================================
     # PARAR JOGO
@@ -2056,11 +2182,22 @@ class Interface(QWidget):
 
     def parar_jogo(self):
 
+        if self.modo != "jogando":
+
+            return
+
+        # Para o timer visual
         self.timer.stop()
+
+        # MUITO IMPORTANTE:
+        # se o jogador apertou Space antes dos 10s,
+        # o limite automático precisa ser cancelado.
+        self.limite_timer.stop()
 
         resultado = self.jogo.parar()
 
         if resultado is None:
+
             return
 
         salvar_partida(
@@ -2149,7 +2286,7 @@ class Interface(QWidget):
         aviso.setStyleSheet("""
             QLabel {
                 color: #ffdd00;
-                background-color: rgba(0, 0, 0, 150);
+                background-color: rgba(0, 0, 0, 100);
                 padding: 20px;
             }
         """)
@@ -2174,6 +2311,7 @@ class Interface(QWidget):
         )
 
         aviso.raise_()
+
         aviso.show()
 
         self.confetes.setGeometry(
@@ -2181,6 +2319,7 @@ class Interface(QWidget):
         )
 
         self.confetes.raise_()
+
         self.confetes.iniciar()
 
         animacao = QPropertyAnimation(
@@ -2208,6 +2347,7 @@ class Interface(QWidget):
         def remover():
 
             aviso.hide()
+
             aviso.deleteLater()
 
         animacao.finished.connect(
@@ -2331,6 +2471,10 @@ class Interface(QWidget):
 
     def iniciar_explosao(self):
 
+        if self.modo != "explodindo":
+
+            return
+
         self.titulo.setText(
             "!!! FALHA CRÍTICA !!!"
         )
@@ -2361,10 +2505,13 @@ class Interface(QWidget):
     def animar_morte(self):
 
         if self.modo != "morte":
+
             self.morte_timer.stop()
+
             return
 
         if not self.erro_morte:
+
             return
 
         self.morte_estado = not self.morte_estado
@@ -2387,11 +2534,6 @@ class Interface(QWidget):
                 }
             """)
 
-
-
-
-
-
     # =============================================================
     # TELA DE MORTE
     # =============================================================
@@ -2401,7 +2543,11 @@ class Interface(QWidget):
         self.modo = "morte"
 
         self.hud_timer.stop()
+
         self.timer.stop()
+
+        self.limite_timer.stop()
+
         self.morte_timer.stop()
 
         # ---------------------------------------------------------
@@ -2409,15 +2555,24 @@ class Interface(QWidget):
         # ---------------------------------------------------------
 
         self.titulo.hide()
+
         self.subtitulo.hide()
+
         self.status.hide()
+
         self.painel_timer.hide()
+
         self.estatisticas.hide()
+
         self.alerta.hide()
+
         self.instrucao.hide()
+
         self.credito.hide()
 
-        for widget in self.findChildren(QFrame):
+        for widget in self.findChildren(
+            QFrame
+        ):
 
             widget.hide()
 
@@ -2525,6 +2680,7 @@ class Interface(QWidget):
         self.overlay_morte.raise_()
 
         self.erro_morte.show()
+
         self.retry_morte.show()
 
         self.overlay_morte.show()
@@ -2543,6 +2699,10 @@ class Interface(QWidget):
 
         self.morte_timer.stop()
 
+        self.timer.stop()
+
+        self.limite_timer.stop()
+
         # ---------------------------------------------------------
         # DESTRUIR TELA DE MORTE
         # ---------------------------------------------------------
@@ -2550,11 +2710,13 @@ class Interface(QWidget):
         if self.overlay_morte:
 
             self.overlay_morte.hide()
+
             self.overlay_morte.deleteLater()
 
             self.overlay_morte = None
 
         self.erro_morte = None
+
         self.retry_morte = None
 
         # ---------------------------------------------------------
@@ -2562,15 +2724,24 @@ class Interface(QWidget):
         # ---------------------------------------------------------
 
         self.titulo.show()
+
         self.subtitulo.show()
+
         self.status.show()
+
         self.painel_timer.show()
+
         self.estatisticas.show()
+
         self.alerta.show()
+
         self.instrucao.show()
+
         self.credito.show()
 
-        for widget in self.findChildren(QFrame):
+        for widget in self.findChildren(
+            QFrame
+        ):
 
             widget.show()
 
